@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { PostsModel } from './entities/posts.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +11,9 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginatePostDto } from './dto/paginate-post.dto';
 import { CommonService } from 'src/common/common.service';
 import { ConfigService } from '@nestjs/config';
+import { POST_IMAGE_PATH, TEMP_FOLDER_PATH } from 'src/common/const/path.const';
+import { basename, join } from 'path';
+import { promises } from 'fs';
 
 /**
  * author: string;
@@ -69,6 +76,24 @@ export class PostsService {
     }
 
     return post;
+  }
+
+  async createPostImage(image: string) {
+    const tempFilePath = join(TEMP_FOLDER_PATH, image);
+
+    try {
+      await promises.access(tempFilePath);
+    } catch {
+      throw new BadRequestException('존재하지 않는 파일입니다.');
+    }
+
+    const filename = basename(tempFilePath);
+
+    const newPath = join(POST_IMAGE_PATH, filename);
+
+    await promises.rename(tempFilePath, newPath);
+
+    return true;
   }
 
   async createPost(authorId: number, postDto: CreatePostDto) {
