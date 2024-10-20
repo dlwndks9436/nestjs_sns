@@ -19,7 +19,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginatePostDto } from './dto/paginate-post.dto';
 import { UsersModel } from 'src/users/entities/users.entity';
 import { ImageModelType } from 'src/common/entity/image.entity';
-import { DataSource, QueryRunner } from 'typeorm';
+import { QueryRunner } from 'typeorm';
 import { PostsImagesService } from './image/images.service';
 import { LogInterceptor } from 'src/common/interceptors/log.interceptor';
 import { TransactionInterceptor } from 'src/common/interceptors/transaction.interceptor';
@@ -30,7 +30,6 @@ export class PostsController {
   constructor(
     private readonly postsService: PostsService,
     private readonly postsImagesService: PostsImagesService,
-    private readonly dataSource: DataSource,
   ) {}
 
   @Get()

@@ -6,8 +6,6 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginatePostDto } from './dto/paginate-post.dto';
 import { CommonService } from 'src/common/common.service';
-import { ConfigService } from '@nestjs/config';
-import { ImageModel } from 'src/common/entity/image.entity';
 import { DEFAULT_POST_FIND_OPTIONS } from './const/default-post-find-options.const';
 
 @Injectable()
@@ -15,10 +13,7 @@ export class PostsService {
   constructor(
     @InjectRepository(PostsModel)
     private readonly postsRepository: Repository<PostsModel>,
-    @InjectRepository(ImageModel)
-    private readonly imageRepository: Repository<ImageModel>,
     private readonly commonService: CommonService,
-    private readonly configService: ConfigService,
   ) {}
 
   async getAllPosts() {
