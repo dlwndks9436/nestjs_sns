@@ -14,6 +14,9 @@ import { ENV_KEYS } from './common/const/env-keys.const';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { PUBLIC_FOLDER_PATH } from './common/const/path.const';
 import { ImageModel } from './common/entity/image.entity';
+import { ChatsModule } from './chats/chats.module';
+import { ChatsModel } from './chats/entity/chats.entity';
+import { MessagesModel } from './chats/messages/entity/messages.entity';
 
 @Module({
   imports: [
@@ -33,12 +36,13 @@ import { ImageModel } from './common/entity/image.entity';
       username: process.env[ENV_KEYS.DB_USERNAME],
       password: process.env[ENV_KEYS.DB_PASSWORD],
       database: process.env[ENV_KEYS.DB_DATABASE],
-      entities: [PostsModel, UsersModel, ImageModel],
+      entities: [PostsModel, UsersModel, ImageModel, ChatsModel, MessagesModel],
       synchronize: true,
     }),
     UsersModule,
     AuthModule,
     CommonModule,
+    ChatsModule,
   ],
   controllers: [AppController],
   providers: [
