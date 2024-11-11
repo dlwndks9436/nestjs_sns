@@ -6,7 +6,7 @@ import {
   FindOptionsWhere,
   Repository,
 } from 'typeorm';
-import { BaseModel } from './entity/base.entity';
+import { BaseModel } from './entities/base.entity';
 import { FILTER_MAPPER } from './const/filter-mapper.const';
 import { ConfigService } from '@nestjs/config';
 import { ENV_KEYS } from './const/env-keys.const';

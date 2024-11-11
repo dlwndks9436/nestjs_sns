@@ -3,7 +3,7 @@ import { ChatsService } from './chats.service';
 import { ChatsController } from './chats.controller';
 import { ChatsGateway } from './chats.gateway';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ChatsModel } from './entity/chats.entity';
+import { ChatsModel } from './entities/chats.entity';
 import { CommonModule } from 'src/common/common.module';
 import { ChatsMessagesService } from './messages/messages.service';
 import { MessagesModel } from './messages/entity/messages.entity';

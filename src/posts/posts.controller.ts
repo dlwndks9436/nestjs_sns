@@ -18,7 +18,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginatePostDto } from './dto/paginate-post.dto';
 import { UsersModel } from 'src/users/entities/users.entity';
-import { ImageModelType } from 'src/common/entity/image.entity';
+import { ImageModelType } from 'src/common/entities/image.entity';
 import { QueryRunner } from 'typeorm';
 import { PostsImagesService } from './image/images.service';
 import { LogInterceptor } from 'src/common/interceptors/log.interceptor';
