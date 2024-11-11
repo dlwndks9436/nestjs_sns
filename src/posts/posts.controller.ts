@@ -8,11 +8,9 @@ import {
   Patch,
   Post,
   Query,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import { AccessTokenGuard } from 'src/auth/guard/bearer-token.guard';
 import { User } from 'src/users/decorators/user.decorator';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
@@ -24,6 +22,7 @@ import { PostsImagesService } from './image/images.service';
 import { LogInterceptor } from 'src/common/interceptors/log.interceptor';
 import { TransactionInterceptor } from 'src/common/interceptors/transaction.interceptor';
 import { QR } from 'src/common/decorators/query-runner.decorator';
+import { IsPublic } from 'src/common/decorators/is-public.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -33,25 +32,25 @@ export class PostsController {
   ) {}
 
   @Get()
+  @IsPublic()
   @UseInterceptors(LogInterceptor)
   getPosts(@Query() query: PaginatePostDto) {
     return this.postsService.paginatePosts(query);
   }
 
   @Post('random')
-  @UseGuards(AccessTokenGuard)
   async postPostsRandom(@User() user: UsersModel) {
     await this.postsService.generatePosts(user.id);
     return true;
   }
 
   @Get(':id')
+  @IsPublic()
   getPost(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.getPostById(id);
   }
 
   @Post()
-  @UseGuards(AccessTokenGuard)
   @UseInterceptors(TransactionInterceptor)
   async postPosts(
     @User('id') userId: number,
