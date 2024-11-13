@@ -8,6 +8,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
@@ -23,6 +24,7 @@ import { LogInterceptor } from 'src/common/interceptors/log.interceptor';
 import { TransactionInterceptor } from 'src/common/interceptors/transaction.interceptor';
 import { QR } from 'src/common/decorators/query-runner.decorator';
 import { IsPublic } from 'src/common/decorators/is-public.decorator';
+import { IsPostMineOrAdminGuard } from './guard/is-post-mine-or-admin.guard';
 
 @Controller('posts')
 export class PostsController {
@@ -74,15 +76,17 @@ export class PostsController {
     return this.postsService.getPostById(post.id, qr);
   }
 
-  @Patch(':id')
+  @Patch(':postId')
+  @UseGuards(IsPostMineOrAdminGuard)
   patchPost(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('postId', ParseIntPipe) id: number,
     @Body() body: UpdatePostDto,
   ) {
     return this.postsService.updatePost(id, body);
   }
 
   @Delete(':id')
+  @UseGuards(IsPostMineOrAdminGuard)
   deletePost(@Param('id', ParseIntPipe) id: number) {
     return this.postsService.deletePost(id);
   }
